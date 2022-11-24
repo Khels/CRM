@@ -3,7 +3,7 @@ version: '3.9'
 services:
   db:
     image: postgres:15.0-bullseye
-    container_name: srm_db_dev
+    container_name: crm_db_dev
     volumes:
       - postgres_data:/var/lib/postgresql/data
     env_file:
@@ -37,7 +37,6 @@ services:
       dockerfile: etc/docker/frontend/Dockerfile.frontend.dev
     image: crm_frontend_dev
     container_name: crm_frontend_dev
-    command: ["npm", "run", "dev"]
     volumes:
       - ./frontend:/app  # for hot-reload
     ports:
