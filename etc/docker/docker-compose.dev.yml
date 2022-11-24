@@ -1,0 +1,49 @@
+version: '3.9'
+
+services:
+  db:
+    image: postgres:15.0-bullseye
+    container_name: srm_db_dev
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    env_file:
+      - .env
+    expose:
+      - "5432"
+    healthcheck:
+      test: [ "CMD", "pg_isready" ]
+      interval: 1s
+      timeout: 5s
+      retries: 10
+
+  backend:
+    build:
+      context: .
+      dockerfile: etc/docker/backend/Dockerfile.backend.dev
+    image: crm_backend_dev
+    container_name: crm_backend_dev
+    command: [ "hypercorn", "src.main:app", "--reload", "--bind", "0.0.0.0:8000" ]
+    volumes:
+      - ./backend:/app  # for hot-reload
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+
+  frontend:
+    build:
+      context: .
+      dockerfile: etc/docker/frontend/Dockerfile.frontend.dev
+    image: crm_frontend_dev
+    container_name: crm_frontend_dev
+    command: ["npm", "run", "dev"]
+    volumes:
+      - ./frontend:/app  # for hot-reload
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+
+volumes:
+  postgres_data:
