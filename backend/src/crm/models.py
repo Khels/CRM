@@ -24,7 +24,12 @@ class Candidate(IdMixin, Base):
     photo_url = Column(Text, default="", nullable=False)
     cv_url = Column(Text, default="", nullable=False)
 
-    position = relationship("Position", back_populates="candidates")
+    position = relationship(
+        "Position",
+        back_populates="candidates",
+        innerjoin=True,
+        lazy="joined"
+    )
 
 
 class Position(IdMixin, NameMixin, Base):

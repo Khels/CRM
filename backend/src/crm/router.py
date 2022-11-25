@@ -5,7 +5,7 @@ from src.database import AsyncSession, get_db_session
 
 from .models import Candidate, Position
 from .schemas import (CandidateCreate, CandidateRead, PositionCreate,
-                      PositionRead, PositionUpdate)
+                      PositionRead, PositionUpdate, StageCreate, StageRead)
 from .utils import get_object_or_404
 
 router = APIRouter(prefix="/api/v1", tags=['crm'])
@@ -172,3 +172,11 @@ async def delete_candidate(
     await session.commit()
 
     return Response(status_code=200)
+
+
+@router.post("/stages", response_model=StageRead)
+async def create_stage(
+    stage: StageCreate,
+    session: AsyncSession = Depends(get_db_session)
+):
+    return {}

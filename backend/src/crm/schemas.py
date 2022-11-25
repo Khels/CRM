@@ -5,26 +5,28 @@ from pydantic import BaseModel
 from .service import Sex
 
 
-class PositionBase(BaseModel):
+# ================ Positions ================
+class BasePosition(BaseModel):
     name: str
 
 
-class PositionCreate(PositionBase):
+class PositionCreate(BasePosition):
     pass
 
 
-class PositionRead(PositionBase):
+class PositionRead(BasePosition):
     id: int
 
     class Config:
         orm_mode = True
 
 
-class PositionUpdate(PositionBase):
+class PositionUpdate(BasePosition):
     name: str | None
 
 
-class CandidateBase(BaseModel):
+# ================ Canditates ================
+class BaseCandidate(BaseModel):
     first_name: str
     last_name: str
     middle_name: str
@@ -34,7 +36,7 @@ class CandidateBase(BaseModel):
     birth_date: date
 
 
-class CandidateCreate(CandidateBase):
+class CandidateCreate(BaseCandidate):
     middle_name: str | None
     phone_number: str | None
     email: str | None
@@ -42,7 +44,7 @@ class CandidateCreate(CandidateBase):
     birth_date: date | None
 
 
-class CandidateRead(CandidateBase):
+class CandidateRead(BaseCandidate):
     id: int
     position: PositionRead
     photo_url: str
@@ -50,3 +52,45 @@ class CandidateRead(CandidateBase):
 
     class Config:
         orm_mode = True
+
+
+# ================ Statuses ================
+class BaseStatus(BaseModel):
+    name: str
+
+
+class StatusCreate(BaseStatus):
+    stage_id: int
+
+
+class StatusRead(BaseStatus):
+    id: int
+
+    class Config:
+        orm_mode = True
+
+
+class StatusUpdate(BaseStatus):
+    name: str | None
+    stage_id: int | None
+
+
+# ================ Stages ================
+class BaseStage(BaseModel):
+    name: str
+
+
+class StageCreate(BaseStage):
+    pass
+
+
+class StageRead(BaseStage):
+    id: int
+    statuses: list[StatusRead]
+
+    class Config:
+        orm_mode = True
+
+
+class StageUpdate(BaseStage):
+    pass
