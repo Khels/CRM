@@ -1,0 +1,93 @@
+import { Link } from "react-router-dom";
+import { PATH } from "../constants";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import {
+  Container,
+  Typography,
+  Box,
+  Grid,
+  TextField,
+  Button,
+  Avatar,
+} from "@mui/material";
+
+export default function SignUpPage() {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+  };
+
+  return (
+    <Container component="main" maxWidth="xs">
+      <Box
+        sx={{
+          marginTop: 8,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+      >
+        <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+          <LockOutlinedIcon />
+        </Avatar>
+        <Typography component="h1" variant="h5">
+          Регистрация
+        </Typography>
+        <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <TextField
+                autoComplete="given-name"
+                name="login"
+                required
+                fullWidth
+                id="login"
+                label="Логин"
+                autoFocus
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                required
+                fullWidth
+                id="email"
+                label="Почта"
+                name="email"
+                autoComplete="email"
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                required
+                fullWidth
+                name="password"
+                label="Пароль"
+                type="password"
+                id="password"
+                autoComplete="new-password"
+              />
+            </Grid>
+            {/* <Grid item xs={12}>
+              <FormControlLabel
+                control={<Checkbox value="allowExtraEmails" color="primary" />}
+                label="I want to receive inspiration, marketing promotions and updates via email."
+              />
+            </Grid> */}
+          </Grid>
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            sx={{ mt: 3, mb: 2 }}
+          >
+            Зарегистрироваться
+          </Button>
+          <Grid container justifyContent="flex-end">
+            <Grid item>
+              <Link to={`../${PATH.SIGN_IN}`}>Уже есть аккаунт?</Link>
+            </Grid>
+          </Grid>
+        </Box>
+      </Box>
+    </Container>
+  );
+}
