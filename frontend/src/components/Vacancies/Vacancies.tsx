@@ -35,7 +35,7 @@ export const Vacancies: FC<IVacanciesProps> = ({
           onClick={() => onSelect(id)}
           key={id}
           title={name}
-		  id={id}
+		      id={id}
         />
       ))}
     </List>
