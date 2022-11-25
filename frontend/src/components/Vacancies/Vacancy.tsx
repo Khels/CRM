@@ -7,7 +7,12 @@ export interface IVacancyProps extends ListItemProps {
   id: number;
 }
 
-export const Vacancy: FC<IVacancyProps> = ({ title, ...props }) => {
+export const Vacancy: FC<IVacancyProps> = ({ title, id, ...props }) => {
+  
+  const removeItem = () => {
+    vacancyStore.delete(id);
+  };
+
   return (
     <ListItem {...props}>
       <ListItemText primary={title}></ListItemText>
