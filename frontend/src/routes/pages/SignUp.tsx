@@ -49,16 +49,6 @@ export default function SignUpPage() {
               <TextField
                 required
                 fullWidth
-                id="email"
-                label="Почта"
-                name="email"
-                autoComplete="email"
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                required
-                fullWidth
                 name="password"
                 label="Пароль"
                 type="password"
