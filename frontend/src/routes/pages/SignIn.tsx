@@ -18,8 +18,7 @@ export const SignInPage = observer(() => {
     event.preventDefault();
 
     const formData = new FormData(event.currentTarget);
-    // TODO:
-    // @ts-ignore
+
     authStore.auth(formData);
   };
 
