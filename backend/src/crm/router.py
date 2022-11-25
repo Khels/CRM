@@ -3,9 +3,10 @@ from sqlalchemy import select
 from sqlalchemy.orm import joinedload
 from src.database import AsyncSession, get_db_session
 
-from .models import Candidate, Position
+from .models import Candidate, Position, Stage
 from .schemas import (CandidateCreate, CandidateRead, PositionCreate,
-                      PositionRead, PositionUpdate, StageCreate, StageRead)
+                      PositionRead, PositionUpdate, StageCreate, StageRead,
+                      StageUpdate)
 from .utils import get_object_or_404
 
 router = APIRouter(prefix="/api/v1", tags=['crm'])
@@ -127,11 +128,7 @@ async def get_candidate(
     session: AsyncSession = Depends(get_db_session)
 ):
     candidate = await get_object_or_404(
-        Candidate,
-        candidate_id,
-        options=[joinedload(Candidate.position, innerjoin=True)],
-        session=session
-    )
+        Candidate, candidate_id, session=session)
 
     return candidate
 
@@ -179,4 +176,55 @@ async def create_stage(
     stage: StageCreate,
     session: AsyncSession = Depends(get_db_session)
 ):
-    return {}
+    new_stage = Stage(**stage.dict())
+
+    session.add(new_stage)
+
+    await session.commit()
+    await session.refresh(new_stage)
+
+    return new_stage
+
+
+@router.get("/stages", response_model=list[StageRead])
+async def get_stages(
+    session: AsyncSession = Depends(get_db_session)
+):
+    query = select(Stage)
+    result = await session.execute(query)
+    stages = result.scalars().all()
+
+    return stages
+
+
+@router.patch("/stages/{stage_id}", response_model=StageRead)
+async def update_stage(
+    stage_id: int,
+    stage: StageUpdate,
+    session: AsyncSession = Depends(get_db_session)
+):
+    db_stage = await get_object_or_404(Stage, stage_id, session=session)
+
+    stage_data = stage.dict(exclude_unset=True)
+    for field, value in stage_data.items():
+        setattr(db_stage, field, value)
+
+    session.add(db_stage)
+
+    await session.commit()
+    await session.refresh(db_stage)
+
+    return db_stage
+
+
+@router.delete("/stage/{stage_id}")
+async def delete_stage(
+    stage_id: int,
+    session: AsyncSession = Depends(get_db_session)
+):
+    stage = await get_object_or_404(Stage, stage_id, session=session)
+
+    await session.delete(stage)
+    await session.commit()
+
+    return Response(status_code=200)

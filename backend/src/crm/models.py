@@ -41,7 +41,11 @@ class Position(IdMixin, NameMixin, Base):
 class Stage(IdMixin, NameMixin, Base):
     __tablename__ = "stage"
 
-    statuses = relationship("Status", back_populates="stage")
+    statuses = relationship(
+        "Status",
+        back_populates="stage",
+        lazy="selectin"
+    )
 
 
 class Status(IdMixin, NameMixin, Base):
