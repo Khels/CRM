@@ -10,6 +10,8 @@ alembic = "*"
 hypercorn = "*"
 toml = "*"
 passlib = {extras = ["bcrypt"], version = "*"}
+asyncpg = "*"
+python-multipart = "*"
 
 [dev-packages]
 flake8 = "*"

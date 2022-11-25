@@ -17,3 +17,13 @@ Remove containers:
 ```
 docker compose --project-directory . -f etc/docker/docker-compose.dev.yml down
 ```
+
+## Migrations
+
+Apply migrations:
+
+```
+docker exec -it crm_backend_dev bash
+alembic upgrade head
+exit
+```

@@ -5,6 +5,10 @@ with open("config.toml", "r") as f:
 
 DEBUG = config["common"]["debug"]
 
+# auth
+ACCESS_TOKEN_EXPIRE_MINUTES = 30000
+REFRESH_TOKEN_EXPIRE_DAYS = 30 * 6
+
 # database
 DATABASE_HOST = config["database"]["host"]
 DATABASE_PORT = config["database"]["port"]
