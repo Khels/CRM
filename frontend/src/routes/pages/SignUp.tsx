@@ -10,10 +10,19 @@ import {
   Button,
   Avatar,
 } from "@mui/material";
+import { observer } from "mobx-react-lite";
+import { authStore } from "../../store/auth";
 
-export default function SignUpPage() {
+export const SignUpPage = observer(function SignUp() {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
+    const formData = new FormData(event.currentTarget);
+    const userData = Object.fromEntries(formData);
+
+    // TODO:
+    // @ts-ignore
+    authStore.register(userData);
   };
 
   return (
@@ -37,10 +46,10 @@ export default function SignUpPage() {
             <Grid item xs={12}>
               <TextField
                 autoComplete="given-name"
-                name="login"
+                name="username"
                 required
                 fullWidth
-                id="login"
+                id="username"
                 label="Логин"
                 autoFocus
               />
@@ -53,7 +62,7 @@ export default function SignUpPage() {
                 label="Пароль"
                 type="password"
                 id="password"
-                autoComplete="new-password"
+                autoComplete="password"
               />
             </Grid>
             <Grid item xs={12}>
@@ -62,9 +71,9 @@ export default function SignUpPage() {
                 fullWidth
                 name="password_confirm"
                 label="Повтор пароля"
-                type="password_confirm"
+                type="password"
                 id="password_confirm"
-                autoComplete="new-password"
+                autoComplete="password_confirm"
               />
             </Grid>
             {/* <Grid item xs={12}>
@@ -91,4 +100,4 @@ export default function SignUpPage() {
       </Box>
     </Container>
   );
-}
+});

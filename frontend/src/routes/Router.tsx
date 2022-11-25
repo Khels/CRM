@@ -1,8 +1,8 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { PATH } from "./constants";
 import MainPage from "./pages/Main";
-import SignInPage from "./pages/SignIn";
-import SignUpPage from "./pages/SignUp";
+import { SignInPage } from "./pages/SignIn";
+import { SignUpPage } from "./pages/SignUp";
 
 export const Router = () => {
   return (

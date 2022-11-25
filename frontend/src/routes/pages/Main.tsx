@@ -6,7 +6,7 @@ import {
 } from "@mui/material";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import { StarBorder } from "@mui/icons-material";
-import { CollapsedListItem } from "../../components/common/CollapsedListItem/CollapsedListItem";
+import { CollapsedListItem } from "../../components/CollapsedListItem/CollapsedListItem";
 
 export default function MainPage() {
   return (

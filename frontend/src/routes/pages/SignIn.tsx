@@ -10,10 +10,17 @@ import {
   Button,
   Avatar,
 } from "@mui/material";
+import { observer } from "mobx-react-lite";
+import { authStore } from "../../store/auth";
 
-export default function SignInPage() {
+export const SignInPage = observer(() => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
+    const formData = new FormData(event.currentTarget);
+    // TODO:
+    // @ts-ignore
+    authStore.auth(formData);
   };
 
   return (
@@ -37,10 +44,10 @@ export default function SignInPage() {
             margin="normal"
             required
             fullWidth
-            id="login"
+            id="username"
             label="Логин"
-            name="login"
-            autoComplete="login"
+            name="username"
+            autoComplete="username"
             autoFocus
           />
           <TextField
@@ -74,4 +81,4 @@ export default function SignInPage() {
       </Box>
     </Container>
   );
-}
+});
