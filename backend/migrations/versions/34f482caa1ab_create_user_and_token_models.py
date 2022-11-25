@@ -1,4 +1,4 @@
-"""user and token model
+"""create User and Token models
 
 Revision ID: 34f482caa1ab
 Revises:

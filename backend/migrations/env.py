@@ -2,6 +2,7 @@ import asyncio
 from logging.config import fileConfig
 
 import src.auth.models  # noqa: F401
+import src.crm.models  # noqa: F401
 from alembic import context
 from sqlalchemy import engine_from_config, pool
 from sqlalchemy.engine import Connection
