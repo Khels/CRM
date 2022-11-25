@@ -85,7 +85,7 @@ export const VacanciesPage: FC<IVacanciesPageProps> = observer(({}) => {
         // aria-labelledby="keep-mounted-modal-title"
         // aria-describedby="keep-mounted-modal-description"
       >
-        <VacancyForm></VacancyForm>
+        <VacancyForm closeModal={handleClose}></VacancyForm>
       </Modal>
     </Grid>
   );

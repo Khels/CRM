@@ -9,4 +9,8 @@ export class VacancyAPI {
   static add = async (params: string) => {
     return api.post("positions/", params);
   };
+
+  static delete = async (id: number) => {
+    return api.delete(`positions/${id}`)
+  }
 }
