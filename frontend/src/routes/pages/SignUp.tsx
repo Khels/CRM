@@ -56,6 +56,17 @@ export default function SignUpPage() {
                 autoComplete="new-password"
               />
             </Grid>
+            <Grid item xs={12}>
+              <TextField
+                required
+                fullWidth
+                name="password_confirm"
+                label="Повтор пароля"
+                type="password_confirm"
+                id="password_confirm"
+                autoComplete="new-password"
+              />
+            </Grid>
             {/* <Grid item xs={12}>
               <FormControlLabel
                 control={<Checkbox value="allowExtraEmails" color="primary" />}
