@@ -28,7 +28,7 @@ export interface Candidate {
   sex: boolean;
   birth_date: Date;
   photo_url: string;
-  cv: string;
+  cv_url: string;
 }
 
 // TODO:
