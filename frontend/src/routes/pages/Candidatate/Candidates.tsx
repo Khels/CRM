@@ -69,7 +69,6 @@ export const CandidatePage = observer(() => {
           <TableRow>
             <TableCell>ФИО</TableCell>
             <TableCell align="right">Контакты</TableCell>
-            <TableCell align="right">Прошлая должность</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -82,7 +81,6 @@ export const CandidatePage = observer(() => {
               <TableCell component="th" scope="row">
                 {row?.fio}
               </TableCell>
-              <TableCell align="right">{row?.position}</TableCell>
               <TableCell align="right">{row?.contacts}</TableCell>
             </TableRow>
           ))}
