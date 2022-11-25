@@ -42,7 +42,6 @@ function createData({
 
 export const CandidatePage = observer(() => {
   const params = useParams();
-  const [candidates, setCandidates] = useState<Candidate[]>();
   const getCandidatesFromURL = async () => {
     const query = new URLSearchParams();
     // TODO:
@@ -58,11 +57,12 @@ export const CandidatePage = observer(() => {
 
   const rows = useMemo(() => {
     if (candidatesStore.candidates?.state === "fulfilled") {
+      const candidates = [...candidatesStore.candidates?.value?.data];
       // @ts-ignore
-      setCandidates(candidatesStore.candidates?.value.data);
+      return candidates?.map((candidate) => createData(candidate));
     }
 
-    return candidates?.map((candidate) => createData(candidate));
+    return [];
   }, [params?.vacancyId, candidatesStore.candidates?.state]);
 
   return (
