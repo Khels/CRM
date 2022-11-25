@@ -1,6 +1,9 @@
 [common]
 debug = true
 
+[cors]
+allowed_origins = [ "http://localhost", "http://localhost:3000" ]
+
 [database]
 host = "db"
 port = 5432

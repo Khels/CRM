@@ -9,6 +9,9 @@ DEBUG = config["common"]["debug"]
 ACCESS_TOKEN_EXPIRE_MINUTES = 30000
 REFRESH_TOKEN_EXPIRE_DAYS = 30 * 6
 
+# CORS
+ALLOWED_ORIGINS = config["cors"]["allowed_origins"]
+
 # database
 DATABASE_HOST = config["database"]["host"]
 DATABASE_PORT = config["database"]["port"]
