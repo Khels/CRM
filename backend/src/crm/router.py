@@ -3,10 +3,10 @@ from sqlalchemy import select
 from sqlalchemy.orm import joinedload
 from src.database import AsyncSession, get_db_session
 
-from .models import Candidate, Position, Stage
+from .models import Candidate, Position, Stage, Status
 from .schemas import (CandidateCreate, CandidateRead, PositionCreate,
                       PositionRead, PositionUpdate, StageCreate, StageRead,
-                      StageUpdate)
+                      StageUpdate, StatusCreate, StatusRead, StatusUpdate)
 from .utils import get_object_or_404
 
 router = APIRouter(prefix="/api/v1", tags=['crm'])
@@ -225,6 +225,71 @@ async def delete_stage(
     stage = await get_object_or_404(Stage, stage_id, session=session)
 
     await session.delete(stage)
+    await session.commit()
+
+    return Response(status_code=200)
+
+
+@router.post("/statuses", response_model=StatusRead)
+async def create_status(
+    status: StatusCreate,
+    session: AsyncSession = Depends(get_db_session)
+):
+    status_data = status.dict()
+    stage_id = status_data["stage_id"]
+
+    # check that provided stage exists
+    await get_object_or_404(Stage, stage_id, session=session)
+
+    new_status = Status(**status_data)
+
+    session.add(new_status)
+
+    await session.commit()
+    await session.refresh(new_status)
+
+    return new_status
+
+
+@router.get("/statuses", response_model=list[StatusRead])
+async def get_statuses(
+    session: AsyncSession = Depends(get_db_session)
+):
+    query = select(Status)
+    result = await session.execute(query)
+    statuses = result.scalars().all()
+
+    return statuses
+
+
+@router.patch("/statuses/{status_id}", response_model=StatusRead)
+async def update_status(
+    status_id: int,
+    status: StatusUpdate,
+    session: AsyncSession = Depends(get_db_session)
+):
+    db_status = await get_object_or_404(Status, status_id, session=session)
+
+    status_data = status.dict(exclude_unset=True)
+    for field, value in status_data.items():
+        setattr(db_status, field, value)
+
+    session.add(db_status)
+
+    await session.commit()
+    await session.refresh(db_status)
+
+    return db_status
+
+
+@router.delete("/statuses/{status_id}")
+async def delete_status(
+    status_id: int,
+    session: AsyncSession = Depends(get_db_session)
+):
+    status = await get_object_or_404(Status, status_id, session=session)
+
+    await session.delete(status)
     await session.commit()
 
     return Response(status_code=200)
