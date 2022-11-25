@@ -12,6 +12,7 @@ import { observer } from "mobx-react-lite";
 import { useEffect } from "react";
 import { Candidate } from "../../../api/v1/models";
 import { Loader } from "../../../components/common/Loader";
+import { PATH } from "../../constants";
 
 function createData({
   id,
@@ -25,7 +26,9 @@ function createData({
   return {
     id,
     fio: (
-      <Link to={`/${id}`}>{`${last_name} ${first_name} ${middle_name}`}</Link>
+      <Link
+        to={`/${PATH.CANDIDATE.INDEX + id}`}
+      >{`${last_name} ${first_name} ${middle_name}`}</Link>
     ),
     contacts: (
       <>

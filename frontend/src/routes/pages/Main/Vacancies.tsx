@@ -31,7 +31,9 @@ export const VacanciesPage: FC<IVacanciesPageProps> = observer(({}) => {
   return (
     <Grid container sx={{ height: "100%" }}>
       <Grid item sx={{ width: 310 }}>
-        <Paper sx={{ height: "100%", p: 1 }}>
+        <Paper
+          sx={{ height: "100%", maxHeight: "100vh", overflow: "auto", p: 1 }}
+        >
           <Grid container alignItems={"center"} justifyContent="space-between">
             <Grid>
               <TextField

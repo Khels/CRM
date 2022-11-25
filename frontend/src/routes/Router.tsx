@@ -20,7 +20,10 @@ export const Router = () => {
         </Route>
         <Route path={PATH.SIGN_IN} element={<SignInPage />} />
         <Route path={PATH.SIGN_UP} element={<SignUpPage />} />
-        <Route path={PATH.CANDIDATE} element={<Candidate />}></Route>
+        <Route
+          path={PATH.CANDIDATE.INDEX + PATH.CANDIDATE.ID}
+          element={<Candidate />}
+        ></Route>
       </Routes>
     </BrowserRouter>
   );

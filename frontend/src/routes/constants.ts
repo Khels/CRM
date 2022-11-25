@@ -2,7 +2,10 @@ export const PATH = {
   MAIN: "/",
   VACANCIES: "vacancies/",
   CANDIDATES: ":vacancyId/",
-  CANDIDATE: "candidates/:candidateId/",
+  CANDIDATE: {
+    INDEX: "candidate/",
+    ID: ":candidateId/",
+  },
   SIGN_IN: "sign-in/",
   SIGN_UP: "sign-up/",
 };
