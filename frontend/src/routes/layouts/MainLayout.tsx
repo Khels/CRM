@@ -22,7 +22,7 @@ export const MainLayout: FC<IMainLayoutProps> = ({}) => {
   return (
     <>
       <Grid container sx={{ height: "100vh" }}>
-        <Grid>
+        <Grid item>
           <Paper sx={{ height: "100%", pr: 1 }}>
             <List
               sx={{ width: 240, bgcolor: "background.paper" }}

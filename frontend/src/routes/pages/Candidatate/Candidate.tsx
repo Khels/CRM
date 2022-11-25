@@ -1,7 +1,7 @@
 import { FC } from "react";
 
-interface ICandidatePageProps {}
+interface ICandidateProps {}
 
-export const CandidatePage: FC<ICandidatePageProps> = ({}) => {
+export const Candidate: FC<ICandidateProps> = ({}) => {
   return <></>;
 };

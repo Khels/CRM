@@ -16,6 +16,7 @@ import { observer } from "mobx-react-lite";
 import AddIcon from "@mui/icons-material/Add";
 import { Loader } from "../../../components/common/Loader";
 import { VacancyForm } from "../../../components/Vacancies/VacancyForm";
+import { Outlet } from "react-router-dom";
 
 interface IVacanciesPageProps {}
 
@@ -29,8 +30,8 @@ export const VacanciesPage: FC<IVacanciesPageProps> = observer(({}) => {
 
   return (
     <Grid container sx={{ height: "100%" }}>
-      <Grid>
-        <Paper sx={{ height: "100%" }}>
+      <Grid item sx={{ width: 310 }}>
+        <Paper sx={{ height: "100%", p: 1 }}>
           <Grid container alignItems={"center"} justifyContent="space-between">
             <Grid>
               <TextField
@@ -69,7 +70,11 @@ export const VacanciesPage: FC<IVacanciesPageProps> = observer(({}) => {
           })}
         </Paper>
       </Grid>
-      <Grid></Grid>
+      <Grid item>
+        <Grid sx={{ width: "100%" }}>
+          <Outlet />
+        </Grid>
+      </Grid>
       <Modal
         keepMounted
         open={isOpenModal}

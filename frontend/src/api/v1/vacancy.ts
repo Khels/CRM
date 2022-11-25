@@ -1,12 +1,5 @@
-import axios from "axios";
 import { Position } from "./models";
-
-const api = axios.create({
-  baseURL: import.meta.env.VITE_BACKEND_URL + "v1/",
-  headers: {
-    Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-  },
-});
+import { api } from "./settings";
 
 export class VacancyAPI {
   static get = async (query?: string) => {
