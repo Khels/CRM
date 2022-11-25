@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from .auth.router import router as auth_router
 from .config import ALLOWED_ORIGINS
+from .crm.router import router as crm_router
 
 app = FastAPI(
     title="CMR for HRs",
@@ -19,3 +20,4 @@ app.add_middleware(
 )
 
 app.include_router(auth_router)
+app.include_router(crm_router)
