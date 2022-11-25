@@ -41,9 +41,12 @@ async def get_position(
 
 @router.get("/positions", response_model=list[PositionRead])
 async def get_positions(
+    q: str | None = None,
     session: AsyncSession = Depends(get_db_session)
 ):
     query = select(Position)
+    if q:
+        query = query.where(Position.name.ilike(f"%{q}%"))
     result = await session.execute(query)
     positions = result.scalars().all()
 
