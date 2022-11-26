@@ -9,7 +9,6 @@ import Paper from "@mui/material/Paper";
 import { Link, useParams } from "react-router-dom";
 import { candidatesStore } from "../../../store/candidate";
 import { observer } from "mobx-react-lite";
-import { useEffect } from "react";
 import { Candidate } from "../../../api/v1/models";
 import { Loader } from "../../../components/common/Loader";
 import { PATH } from "../../constants";
@@ -88,7 +87,7 @@ export const CandidatePage = observer(() => {
     // @ts-ignore
     query.append("position", params?.vacancyId);
 
-    await candidatesStore.get(query.toString());
+    await candidatesStore.getAllCandidatesByVacancyId(query.toString());
   };
 
   useMemo(() => {
