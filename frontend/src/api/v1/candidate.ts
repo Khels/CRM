@@ -1,5 +1,5 @@
 import { api } from "./settings";
-import { Candidate, UpdateCandidate } from "../../api/v1/models";
+import { Candidate, UpdateCandidate, AddCandidate } from "../../api/v1/models";
 
 export class CandidateAPI {
   static getAllCandidatesByVacancyId = async (query?: string) => {
@@ -7,8 +7,8 @@ export class CandidateAPI {
   };
 
   static getCandidateById = async (id: number) => {
-    return api.get<Candidate>(`candidates/${id}`)
-  }
+    return api.get<Candidate>(`candidates/${id}`);
+  };
 
   static updateCandidate = async (params: UpdateCandidate) => {
     return api.patch<UpdateCandidate>(`candidates/${params.id}`, {
@@ -19,4 +19,8 @@ export class CandidateAPI {
       position: params.position
     })
   }
+  
+  static add = async (params: AddCandidate) => {
+    return api.post<Candidate>(`candidates/`, params);
+  };
 }

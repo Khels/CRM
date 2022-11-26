@@ -1,25 +1,13 @@
 import { FC, useState } from "react";
-import {
-  Paper,
-  Grid,
-  TextField,
-  IconButton,
-  Button,
-  Modal,
-  Box,
-  Tooltip,
-  Typography,
-  Divider,
-} from "@mui/material";
+import { TextField, Button, Box, Typography } from "@mui/material";
 import { vacancyStore } from "../../store/vacancy";
 import { observer } from "mobx-react-lite";
 
 interface IVacancyFormProps {
-  closeModal: () => void
+  closeModal: () => void;
 }
 
-export const VacancyForm: FC<IVacancyFormProps> = observer(({closeModal}) => {
-
+export const VacancyForm: FC<IVacancyFormProps> = observer(({ closeModal }) => {
   const [text, setText] = useState<string>("");
 
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -69,7 +57,7 @@ export const VacancyForm: FC<IVacancyFormProps> = observer(({closeModal}) => {
       <TextField
         required
         fullWidth
-        inputRef={input => input && input.focus()}
+        inputRef={(input) => input && input.focus()}
         type="text"
         name="vacancy"
         label="Название вакансии"
