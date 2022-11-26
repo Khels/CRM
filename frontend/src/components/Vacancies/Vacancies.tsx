@@ -3,6 +3,7 @@ import { FC, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Position } from "../../api/v1/models";
 import { Vacancy } from "./Vacancy";
+import { vacancyStore } from "../../store/vacancy";
 
 interface IVacancyItem extends Position {}
 
@@ -34,6 +35,7 @@ export const Vacancies: FC<IVacanciesProps> = ({
           onClick={() => onSelect(id)}
           key={id}
           title={name}
+		      id={id}
         />
       ))}
     </List>

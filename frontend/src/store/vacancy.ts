@@ -32,6 +32,16 @@ export class VacancyStore {
       errorHandler(error);
     }
   };
+
+  delete = async (id: number) => {
+    try {
+      await VacancyAPI.delete(id)
+
+      this.vacancies = fromPromise(VacancyAPI.get(this.query))
+    } catch (error) {
+      errorHandler(error)
+    }
+  }
 }
 
 export const vacancyStore = new VacancyStore();
