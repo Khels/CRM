@@ -30,7 +30,7 @@ export const VacanciesPage: FC<IVacanciesPageProps> = observer(({}) => {
 
   return (
     <Grid container sx={{ height: "100%" }}>
-      <Grid item sx={{ width: 310 }}>
+      <Grid item sx={{ width: 320 }}>
         <Paper
           sx={{ height: "100%", maxHeight: "100vh", overflow: "auto", p: 1 }}
         >
@@ -54,9 +54,6 @@ export const VacanciesPage: FC<IVacanciesPageProps> = observer(({}) => {
               />
             </Grid>
             <Grid>
-              {
-                // TODO: AHHAHAHAHAHAH
-              }
               <Tooltip title="Создать вакансию">
                 <Button onClick={handleOpen}>
                   <IconButton color="default" aria-label="add to shopping cart">
@@ -77,14 +74,7 @@ export const VacanciesPage: FC<IVacanciesPageProps> = observer(({}) => {
           <Outlet />
         </Grid>
       </Grid>
-      <Modal
-        keepMounted
-        open={isOpenModal}
-        onClose={handleClose}
-
-        // aria-labelledby="keep-mounted-modal-title"
-        // aria-describedby="keep-mounted-modal-description"
-      >
+      <Modal keepMounted open={isOpenModal} onClose={handleClose}>
         <VacancyForm closeModal={handleClose}></VacancyForm>
       </Modal>
     </Grid>
