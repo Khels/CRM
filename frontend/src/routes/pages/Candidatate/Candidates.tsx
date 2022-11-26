@@ -45,24 +45,32 @@ function createData({
             justifyContent: "right",
           }}
         >
-          <Tooltip title="Перейти в Telegram">
-            <a target="_blank" href={`https://t.me/+${phone_number}`}>
-              <TelegramIcon />
-            </a>
-          </Tooltip>
           <Tooltip title="Перейти в WhatsApp">
-            <a target="_blank" href={`https://wa.me/+${phone_number}`}>
+            <a
+              target="_blank"
+              style={{ color: "#45c554" }}
+              href={`https://wa.me/+${phone_number}`}
+            >
               <WhatsAppIcon />
             </a>
           </Tooltip>
-          <Tooltip title={`Позвонить +${phone_number}`}>
-            <a href={`tel:+${phone_number}`}>
-              <LocalPhoneIcon />
+          <Tooltip title="Перейти в Telegram">
+            <a
+              target="_blank"
+              style={{ color: "#1c93e3" }}
+              href={`https://t.me/+${phone_number}`}
+            >
+              <TelegramIcon />
             </a>
           </Tooltip>
           <Tooltip title={email}>
-            <a href={`mailto:${email}`}>
+            <a style={{ color: "#178ed8" }} href={`mailto:${email}`}>
               <EmailIcon />
+            </a>
+          </Tooltip>
+          <Tooltip title={`Позвонить +${phone_number}`}>
+            <a style={{ color: "#185ed9" }} href={`tel:+${phone_number}`}>
+              <LocalPhoneIcon />
             </a>
           </Tooltip>
         </Grid>
