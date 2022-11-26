@@ -22,13 +22,17 @@ export interface Candidate {
   first_name: string;
   last_name: string;
   middle_name: string;
-  phone_number: number;
+  phone_number: string;
   email: string;
   position: Position;
   sex: boolean;
   birth_date: Date;
   photo_url: string;
   cv_url: string;
+}
+
+export interface UpdateCandidate extends Partial<Candidate> {
+  id: number
 }
 
 // TODO:
