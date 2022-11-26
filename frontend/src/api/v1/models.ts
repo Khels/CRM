@@ -14,7 +14,7 @@ export interface Tokens {
 
 export interface Position {
   id: number;
-  name: string;
+  name?: string;
 }
 
 export interface Candidate {
@@ -25,10 +25,13 @@ export interface Candidate {
   phone_number: string;
   email: string;
   position: Position;
-  sex: boolean;
+  sex: number;
   birth_date: Date;
   photo_url: string;
   cv_url: string;
+}
+
+export interface AddCandidate extends Partial<Omit<Candidate, "birth_date">> {
 }
 
 export interface UpdateCandidate extends Partial<Omit<Candidate, "birth_date">> {

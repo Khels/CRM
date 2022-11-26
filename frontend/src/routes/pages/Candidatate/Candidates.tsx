@@ -158,7 +158,7 @@ export const CandidatePage = observer(() => {
         </Table>
       </TableContainer>
       <Modal keepMounted open={isOpenModal} onClose={handleClose}>
-        <CandidateForm></CandidateForm>
+        <CandidateForm closeModal={handleClose}></CandidateForm>
       </Modal>
     </>
   );

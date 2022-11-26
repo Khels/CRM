@@ -1,5 +1,5 @@
 import { api } from "./settings";
-import { Candidate, UpdateCandidate } from "../../api/v1/models";
+import { Candidate, UpdateCandidate, AddCandidate } from "../../api/v1/models";
 
 export class CandidateAPI {
   static getAllCandidatesByVacancyId = async (query?: string) => {
@@ -20,7 +20,7 @@ export class CandidateAPI {
     })
   }
   
-  static add = async (params: Partial<Candidate>) => {
+  static add = async (params: AddCandidate) => {
     return api.post<Candidate>(`candidates/`, params);
   };
 }

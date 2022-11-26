@@ -15,9 +15,11 @@ import { observer } from "mobx-react-lite";
 import { FC, useEffect, useMemo, useState } from "react";
 import { candidatesStore } from "../store/candidate";
 
-interface ICandidateFormProps {}
+interface ICandidateFormProps {
+  closeModal: () => void;
+}
 
-export const CandidateForm: FC<ICandidateFormProps> = observer(({}) => {
+export const CandidateForm: FC<ICandidateFormProps> = observer(({closeModal}) => {
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -29,9 +31,13 @@ export const CandidateForm: FC<ICandidateFormProps> = observer(({}) => {
     await candidatesStore.add({
       ...userData,
       sex: Number(userData.sex),
-      position_id: Number(userData.position_id),
-      phone_number: Number(userData.phone_number),
+      position: {
+        id: Number(userData.position_id)
+      },
+      phone_number: userData.phone_number.toString(),
     });
+
+    closeModal();
     // TODO:
     // @ts-ignore\
   };
@@ -105,7 +111,7 @@ export const CandidateForm: FC<ICandidateFormProps> = observer(({}) => {
           />
           <TextField
             id="position_id"
-            label="Номер Телефона"
+            label="Номер вакансии"
             name="position_id"
             sx={{ width: "80%", marginBottom: "10px" }}
             required

@@ -3,10 +3,10 @@ import { makeAutoObservable, runInAction } from "mobx";
 import { fromPromise, IPromiseBasedObservable } from "mobx-utils";
 import { CandidateAPI } from "../api/v1/candidate";
 import { errorHandler } from "../utils/errorsHandler";
-import { Candidate as CandidateType, UpdateCandidate } from "../api/v1/models";
+import { AddCandidate, Candidate as CandidateType, UpdateCandidate } from "../api/v1/models";
 
 class Candidate {
-  candidates?: IPromiseBasedObservable<AxiosResponse<Candidate[]>> = undefined;
+  candidates?: IPromiseBasedObservable<AxiosResponse<CandidateType[]>> = undefined;
   candidate?: IPromiseBasedObservable<AxiosResponse<CandidateType>> = undefined;
 
   constructor() {
@@ -45,12 +45,12 @@ class Candidate {
     }
   };
 
-  add = async (data: Partial<Candidate>) => {
+  add = async (data: AddCandidate) => {
     try {
       const candidate = await CandidateAPI.add(data);
 
       this.candidates = fromPromise(
-        CandidateAPI.getAllCandidatesByVacancyId(candidate.data.position.id)
+        CandidateAPI.getAllCandidatesByVacancyId(candidate.data.position.id.toString())
       );
     } catch (error) {
       errorHandler(error);
