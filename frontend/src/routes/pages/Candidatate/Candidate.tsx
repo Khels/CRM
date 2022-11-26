@@ -12,8 +12,11 @@ import {
 import { observer } from "mobx-react-lite";
 import { FC, useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
-import { Candidate as CandidateType } from "../../../api/v1/models";
+import { Candidate as CandidateType, UpdateCandidate } from "../../../api/v1/models";
+
 import { Loader } from "../../../components/common/Loader";
+
+
 import { candidatesStore } from "../../../store/candidate";
 
 interface ICandidateProps {}
@@ -24,14 +27,12 @@ export const Candidate: FC<ICandidateProps> = observer(({}) => {
   const candidate = candidatesStore.candidate;
 
   const [isUpdateMode, setIsUpdateMode] = useState<boolean>(false);
-  const [candidateInfo, setCandidateInfo] = useState<CandidateType>({} as CandidateType);
-
+  const [candidateInfo, setCandidateInfo] = useState<UpdateCandidate>({} as UpdateCandidate);
 
   useEffect(() => {
-      getCandidate();
+    getCandidate();
   }, []);
 
-  
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     candidatesStore.updateCondidate(candidateInfo);
@@ -42,11 +43,10 @@ export const Candidate: FC<ICandidateProps> = observer(({}) => {
   };
 
   useMemo(() => {
-    if(candidate?.state === "fulfilled") {
-      setCandidateInfo(({...candidate?.value.data}))
+    if (candidate?.state === "fulfilled") {
+      setCandidateInfo({ ...candidate?.value.data });
     }
-  }, [candidate?.value])
-
+  }, [candidate?.value]);
 
   return (
     <Box
