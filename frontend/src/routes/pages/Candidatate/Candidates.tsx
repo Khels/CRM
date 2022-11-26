@@ -13,6 +13,11 @@ import { useEffect } from "react";
 import { Candidate } from "../../../api/v1/models";
 import { Loader } from "../../../components/common/Loader";
 import { PATH } from "../../constants";
+import { Grid, Tooltip } from "@mui/material";
+import TelegramIcon from "@mui/icons-material/Telegram";
+import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
+import WhatsAppIcon from "@mui/icons-material/WhatsApp";
+import EmailIcon from "@mui/icons-material/Email";
 
 function createData({
   id,
@@ -32,8 +37,35 @@ function createData({
     ),
     contacts: (
       <>
-        <div>{phone_number}</div>
-        <div>{email}</div>
+        <Grid
+          container
+          sx={{
+            display: "flex",
+            gap: 1,
+            justifyContent: "right",
+          }}
+        >
+          <Tooltip title="Перейти в Telegram">
+            <a target="_blank" href={`https://t.me/+${phone_number}`}>
+              <TelegramIcon />
+            </a>
+          </Tooltip>
+          <Tooltip title="Перейти в WhatsApp">
+            <a target="_blank" href={`https://wa.me/+${phone_number}`}>
+              <WhatsAppIcon />
+            </a>
+          </Tooltip>
+          <Tooltip title={`Позвонить +${phone_number}`}>
+            <a href={`tel:+${phone_number}`}>
+              <LocalPhoneIcon />
+            </a>
+          </Tooltip>
+          <Tooltip title={email}>
+            <a href={`mailto:${email}`}>
+              <EmailIcon />
+            </a>
+          </Tooltip>
+        </Grid>
       </>
     ),
     position: position?.name,
@@ -84,7 +116,7 @@ export const CandidatePage = observer(() => {
               <TableCell component="th" scope="row">
                 {row?.fio}
               </TableCell>
-              <TableCell align="right">{row?.contacts}</TableCell>
+              <TableCell align="left">{row?.contacts}</TableCell>
             </TableRow>
           ))}
         </TableBody>
