@@ -16,7 +16,9 @@ class Candidate {
   getAllCandidatesByVacancyId = async (query?: string) => {
     try {
       runInAction(() => {
-        this.candidates = fromPromise(CandidateAPI.getAllCandidatesByVacancyId(query));
+        this.candidates = fromPromise(
+          CandidateAPI.getAllCandidatesByVacancyId(query)
+        );
       });
     } catch (error) {
       errorHandler(error);
@@ -35,13 +37,25 @@ class Candidate {
 
   updateCondidate = async (data: UpdateCandidate) => {
     try {
-      await CandidateAPI.updateCandidate(data)
+      await CandidateAPI.updateCandidate(data);
 
-      this.candidate = fromPromise(CandidateAPI.getCandidateById(data.id))
+      this.candidate = fromPromise(CandidateAPI.getCandidateById(data.id));
     } catch (error) {
-      errorHandler(error)
+      errorHandler(error);
     }
-  }
+  };
+
+  add = async (data: Partial<Candidate>) => {
+    try {
+      const candidate = await CandidateAPI.add(data);
+
+      this.candidates = fromPromise(
+        CandidateAPI.getAllCandidatesByVacancyId(candidate.data.position.id)
+      );
+    } catch (error) {
+      errorHandler(error);
+    }
+  };
 }
 
 export const candidatesStore = new Candidate();

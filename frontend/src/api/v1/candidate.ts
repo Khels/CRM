@@ -7,8 +7,8 @@ export class CandidateAPI {
   };
 
   static getCandidateById = async (id: number) => {
-    return api.get<Candidate>(`candidates/${id}`)
-  }
+    return api.get<Candidate>(`candidates/${id}`);
+  };
 
   static updateCandidate = async (params: UpdateCandidate) => {
     return api.patch<UpdateCandidate>(`candidates/${params.id}`, {
@@ -19,4 +19,8 @@ export class CandidateAPI {
       position: params.position
     })
   }
+  
+  static add = async (params: Partial<Candidate>) => {
+    return api.post<Candidate>(`candidates/`, params);
+  };
 }

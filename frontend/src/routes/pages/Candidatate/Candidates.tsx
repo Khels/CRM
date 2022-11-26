@@ -1,5 +1,14 @@
 import { useMemo, useState } from "react";
-import Table from "@mui/material/Table";
+import {
+  Toolbar,
+  IconButton,
+  Modal,
+  Box,
+  Tooltip,
+  Typography,
+  Grid,
+  Table,
+} from "@mui/material";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
@@ -12,11 +21,12 @@ import { observer } from "mobx-react-lite";
 import { Candidate } from "../../../api/v1/models";
 import { Loader } from "../../../components/common/Loader";
 import { PATH } from "../../constants";
-import { Grid, Tooltip } from "@mui/material";
 import TelegramIcon from "@mui/icons-material/Telegram";
 import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
 import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 import EmailIcon from "@mui/icons-material/Email";
+import AddIcon from "@mui/icons-material/Add";
+import { CandidateForm } from "../../../components/CandidateForm";
 
 function createData({
   id,
@@ -80,6 +90,11 @@ function createData({
 }
 
 export const CandidatePage = observer(() => {
+  const [isOpenModal, setIsOpenModal] = useState(false);
+
+  const handleOpen = () => setIsOpenModal(true);
+  const handleClose = () => setIsOpenModal(false);
+
   const params = useParams();
   const getCandidatesFromURL = async () => {
     const query = new URLSearchParams();
@@ -105,29 +120,46 @@ export const CandidatePage = observer(() => {
   }, [params?.vacancyId, candidatesStore.candidates?.state]);
 
   return (
-    <TableContainer component={Paper} sx={{ width: "100%", height: "100vh" }}>
-      <Table sx={{ minWidth: 650 }} aria-label="simple table">
-        <TableHead>
-          <TableRow>
-            <TableCell>ФИО</TableCell>
-            <TableCell align="right">Контакты</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {candidatesStore.candidates?.state === "pending" && <Loader />}
-          {rows?.map((row) => (
-            <TableRow
-              key={row.id}
-              sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-            >
-              <TableCell component="th" scope="row">
-                {row?.fio}
-              </TableCell>
-              <TableCell align="left">{row?.contacts}</TableCell>
+    <>
+      <Toolbar
+        sx={{
+          pl: { sm: 2 },
+          pr: { xs: 1, sm: 1 },
+        }}
+      >
+        <Tooltip title="Добавить кандидата">
+          <IconButton onClick={handleOpen}>
+            <AddIcon />
+          </IconButton>
+        </Tooltip>
+      </Toolbar>
+      <TableContainer component={Paper} sx={{ width: "100%", height: "100vh" }}>
+        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+          <TableHead>
+            <TableRow>
+              <TableCell>ФИО</TableCell>
+              <TableCell align="right">Контакты</TableCell>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+          </TableHead>
+          <TableBody>
+            {candidatesStore.candidates?.state === "pending" && <Loader />}
+            {rows?.map((row) => (
+              <TableRow
+                key={row.id}
+                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+              >
+                <TableCell component="th" scope="row">
+                  {row?.fio}
+                </TableCell>
+                <TableCell align="left">{row?.contacts}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+      <Modal keepMounted open={isOpenModal} onClose={handleClose}>
+        <CandidateForm></CandidateForm>
+      </Modal>
+    </>
   );
 });
