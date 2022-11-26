@@ -31,7 +31,7 @@ export interface Candidate {
   cv_url: string;
 }
 
-export interface UpdateCandidate extends Partial<Candidate> {
+export interface UpdateCandidate extends Partial<Omit<Candidate, "birth_date">> {
   id: number
 }
 
