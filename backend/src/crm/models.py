@@ -24,6 +24,12 @@ class Candidate(IdMixin, Base):
     photo_url = Column(Text, default="", nullable=False)
     cv_url = Column(Text, default="", nullable=False)
 
+    stages = relationship(
+        "CandidateStage",
+        back_populates="candidate",
+        order_by="CandidateStage.date"
+    )
+
     position = relationship(
         "Position",
         back_populates="candidates",
@@ -46,6 +52,7 @@ class Stage(IdMixin, NameMixin, Base):
         back_populates="stage",
         lazy="selectin"
     )
+    candidates = relationship("CandidateStage", back_populates="stage")
 
 
 class Status(IdMixin, NameMixin, Base):
@@ -81,4 +88,14 @@ class CandidateStage(Base):
     date = Column(DateTime, default=None)
     comment = Column(Text, default="", nullable=False)
 
-    status = relationship("Status")
+    candidate = relationship("Candidate", back_populates="stages")
+    stage = relationship(
+        "Stage",
+        innerjoin=True,
+        lazy="joined"
+    )
+    status = relationship(
+        "Status",
+        innerjoin=True,
+        lazy="joined"
+    )

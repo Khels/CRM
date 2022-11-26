@@ -1,10 +1,13 @@
+from datetime import datetime
+
 from fastapi import APIRouter, Depends, Query, Response, UploadFile, status
 from sqlalchemy import select
-from sqlalchemy.orm import joinedload
+from sqlalchemy.orm import joinedload, selectinload, subqueryload
 from src.database import AsyncSession, get_db_session
 
-from .models import Candidate, Position, Stage, Status
-from .schemas import (CandidateCreate, CandidateRead, PositionCreate,
+from .models import Candidate, CandidateStage, Position, Stage, Status
+from .schemas import (CandidateCreate, CandidateRead, CandidateStageCreate,
+                      CandidateStageUpdate, CandidateUpdate, PositionCreate,
                       PositionRead, PositionUpdate, StageCreate, StageRead,
                       StageUpdate, StatusCreate, StatusRead, StatusUpdate)
 from .utils import get_object_or_404
@@ -122,39 +125,103 @@ async def create_candidate(
     return new_candidate
 
 
-@router.get("/candidates/{candidate_id}", response_model=CandidateRead)
+@router.post("/candidates-stages")
+async def create_candidate_stage(
+    candidate_stage: CandidateStageCreate,
+    session: AsyncSession = Depends(get_db_session)
+):
+    candidate_stage_data = candidate_stage.dict()
+    candidate_stage_data["date"] = datetime.now()
+
+    new_candidate_stage = CandidateStage(**candidate_stage_data)
+
+    session.add(new_candidate_stage)
+
+    await session.commit()
+    await session.refresh(new_candidate_stage)
+
+    return new_candidate_stage
+
+
+@router.get("/candidates/{candidate_id}")
 async def get_candidate(
     candidate_id: int,
     session: AsyncSession = Depends(get_db_session)
 ):
     candidate = await get_object_or_404(
-        Candidate, candidate_id, session=session)
+        Candidate,
+        candidate_id,
+        options=[
+            joinedload(Candidate.position, innerjoin=True),
+            subqueryload(Candidate.stages)
+        ],
+        session=session
+    )
 
     return candidate
 
 
-@router.get("/candidates", response_model=list[CandidateRead])
+@router.get("/candidates")
 async def get_candidates(
     position: int | None = Query(default=None),
     session: AsyncSession = Depends(get_db_session)
 ):
     query = select(Candidate).options(
-        joinedload(Candidate.position, innerjoin=True)
+        joinedload(Candidate.position, innerjoin=True),
+        selectinload(Candidate.stages)
     )
     if position:
         query = query.where(Candidate.position_id == position)
     result = await session.execute(query)
-    positions = result.scalars().all()
+    candidates = result.scalars().all()
 
-    return positions
+    return candidates
 
 
-@router.patch("/candidates/{candidate_id}", response_model=CandidateRead)
+@router.patch("/candidates/{candidate_id}")
 async def update_candidate(
     candidate_id: int,
+    candidate: CandidateUpdate,
     session: AsyncSession = Depends(get_db_session)
 ):
-    return {}
+    db_candidate = await get_object_or_404(
+        Candidate, candidate_id, session=session)
+
+    candidate_data = candidate.dict(exclude_unset=True)
+    for field, value in candidate_data.items():
+        setattr(db_candidate, field, value)
+
+    session.add(db_candidate)
+
+    await session.commit()
+    await session.refresh(db_candidate)
+
+    return db_candidate
+
+
+@router.post("/candidates/stage")
+async def update_candidate_stage(
+    candidate_stage: CandidateStageUpdate,
+    session: AsyncSession = Depends(get_db_session)
+):
+    candidate_stage_data = candidate_stage.dict()
+    query = select(CandidateStage).where(
+        CandidateStage.candidate_id == candidate_stage_data["candidate_id"],
+        CandidateStage.stage_id == candidate_stage_data["stage_id"]
+    )
+    result = await session.execute(query)
+    db_candidate_stage = result.scalar()
+
+    db_candidate_stage.status_id = candidate_stage_data.get("status_id", None)
+    db_candidate_stage.date = datetime.now()
+    db_candidate_stage.comment = candidate_stage_data.get("comment", "")
+
+    session.add(db_candidate_stage)
+
+    await session.commit()
+    await session.refresh(db_candidate_stage)
+
+    return db_candidate_stage
 
 
 @router.delete("/candidates/{candidate_id}")

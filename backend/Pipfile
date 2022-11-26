@@ -12,6 +12,8 @@ toml = "*"
 passlib = {extras = ["bcrypt"], version = "*"}
 asyncpg = "*"
 python-multipart = "*"
+python-docx = "*"
+pypdf2 = "*"
 
 [dev-packages]
 flake8 = "*"

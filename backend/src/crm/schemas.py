@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import date, datetime
 
 from pydantic import BaseModel
 
@@ -25,6 +25,27 @@ class PositionUpdate(BasePosition):
     name: str | None
 
 
+# ================ Statuses ================
+class BaseStatus(BaseModel):
+    name: str
+
+
+class StatusCreate(BaseStatus):
+    stage_id: int
+
+
+class StatusRead(BaseStatus):
+    id: int
+
+    class Config:
+        orm_mode = True
+
+
+class StatusUpdate(BaseStatus):
+    name: str | None
+    stage_id: int | None
+
+
 # ================ Canditates ================
 class BaseCandidate(BaseModel):
     first_name: str
@@ -34,6 +55,20 @@ class BaseCandidate(BaseModel):
     email: str
     sex: Sex
     birth_date: date
+
+
+class CandidateStageCreate(BaseModel):
+    candidate_id: int
+    stage_id: int
+    status_id: int | None
+    comment: str
+
+
+class CandidateStageUpdate(BaseModel):
+    candidate_id: int
+    stage_id: int
+    status_id: int | None
+    comment: str | None
 
 
 class CandidateCreate(BaseCandidate):
@@ -54,25 +89,15 @@ class CandidateRead(BaseCandidate):
         orm_mode = True
 
 
-# ================ Statuses ================
-class BaseStatus(BaseModel):
-    name: str
-
-
-class StatusCreate(BaseStatus):
-    stage_id: int
-
-
-class StatusRead(BaseStatus):
-    id: int
-
-    class Config:
-        orm_mode = True
-
-
-class StatusUpdate(BaseStatus):
-    name: str | None
-    stage_id: int | None
+class CandidateUpdate(BaseModel):
+    first_name: str | None
+    last_name: str | None
+    middle_name: str | None
+    phone_number: str | None
+    email: str | None
+    sex: Sex | None
+    birth_date: date | None
+    position_id: int | None
 
 
 # ================ Stages ================
